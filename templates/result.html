@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hasil Diagnosa - TomatoCare AI</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Inter', 'sans-serif'] },
+          colors: {
+            'danger': '#E63946',
+            'success': '#2A9D8F',
+            'warning': '#E9C46A',
+            'dark': '#264653'
+          }
+        }
+      }
+    }
+  </script>
+</head>
+
+<body class="bg-gray-50 text-gray-800 pb-20">
+
+  <nav class="bg-white shadow-sm sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+      <div class="flex items-center gap-2">
+        <i class="fa-solid fa-seedling text-danger text-xl"></i>
+        <span class="font-bold text-dark text-lg">TomatoCare <span class="text-gray-400 font-normal">|
+            Result</span></span>
+      </div>
+      <a href="/" class="text-sm font-semibold text-gray-500 hover:text-danger">
+        <i class="fa-solid fa-arrow-left mr-1"></i> Kembali ke Home
+      </a>
+    </div>
+  </nav>
+
+  <section class="bg-white border-b border-gray-200 py-10">
+    <div class="max-w-6xl mx-auto px-4 text-center">
+      {% if is_healthy %}
+      <span
+        class="inline-block px-3 py-1 bg-green-100 text-green-600 rounded-full text-xs font-bold tracking-wide mb-4">
+        KONDISI PRIMA
+      </span>
+      {% else %}
+      <span class="inline-block px-3 py-1 bg-red-100 text-red-600 rounded-full text-xs font-bold tracking-wide mb-4">
+        PENYAKIT TERDETEKSI
+      </span>
+      {% endif %}
+      <h1 class="text-4xl md:text-5xl font-bold text-dark mb-2">{{ predicted_class }}</h1>
+      <p class="text-gray-500 text-lg">Confidence: {{ confidence }}</p>
+    </div>
+  </section>
+
+  <div class="max-w-7xl mx-auto px-4 mt-8 grid grid-cols-1 lg:grid-cols-12 gap-8">
+
+    <div class="lg:col-span-7 space-y-6">
+
+      <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+        <h3 class="font-bold text-dark mb-4 flex items-center">
+          <i class="fa-solid fa-eye text-success mr-2"></i> Analisa Visual AI (Grad-CAM)
+        </h3>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="relative group">
+            <span class="absolute top-2 left-2 bg-black/60 text-white text-xs px-2 py-1 rounded backdrop-blur-sm">Input
+              Asli</span>
+            <img src="{{ image_path }}" class="rounded-xl w-full h-64 object-cover border border-gray-200">
+          </div>
+
+          {% if heatmap_path %}
+          <div class="relative group">
+            <span
+              class="absolute top-2 left-2 bg-danger/90 text-white text-xs px-2 py-1 rounded backdrop-blur-sm shadow-lg">AI
+              Attention Heatmap</span>
+            <div class="relative w-full h-64 rounded-xl overflow-hidden border border-gray-200">
+              <!-- Overlay Logic: Image + Heatmap Blend -->
+              <img src="{{ heatmap_path }}" class="absolute inset-0 w-full h-full object-cover">
+            </div>
+          </div>
+          {% else %}
+          <div class="flex items-center justify-center bg-gray-100 rounded-xl h-64 text-gray-400 text-sm">
+            Heatmap tidak tersedia
+          </div>
+          {% endif %}
+        </div>
+
+        <div class="mt-4 bg-blue-50 p-4 rounded-lg border border-blue-100 flex items-start gap-3">
+          <i class="fa-solid fa-circle-info text-blue-500 mt-1"></i>
+          <div>
+            <p class="text-sm text-blue-800 font-semibold">Interpretasi Model:</p>
+            <p class="text-sm text-blue-700">
+              "Area berwarna <span class="font-bold text-red-600">merah pekat</span> pada gambar kanan
+              menunjukkan bagian daun yang menjadi fokus utama AI dalam menentukan penyakit. AI mendeteksi
+              pola unik pada tekstur daun."
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+        <h3 class="font-bold text-dark mb-6 flex items-center">
+          <i class="fa-solid fa-chart-bar text-success mr-2"></i> Probabilitas Kelas Lain
+        </h3>
+
+        <!-- All Probabilities -->
+        {% for name, prob in class_probs %}
+        <div class="mb-4 {% if loop.index > 1 %}opacity-60{% endif %}">
+          <div class="flex justify-between mb-1">
+            <span class="text-sm font-bold text-gray-700">{{ name }}</span>
+            <span
+              class="text-sm font-bold {% if loop.index == 1 and is_healthy %}text-success{% elif loop.index == 1 %}text-danger{% else %}text-gray-500{% endif %}">{{
+              prob }}</span>
+          </div>
+          <div class="w-full bg-gray-200 rounded-full h-3">
+            <!-- Convert prob string '99.9%' to width style -->
+            <div
+              class="{% if loop.index == 1 %}{% if is_healthy %}bg-success{% else %}bg-danger{% endif %}{% else %}bg-gray-400{% endif %} h-3 rounded-full progress-bar"
+              data-width="{{ prob }}"></div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="lg:col-span-5 space-y-6">
+
+      <div
+        class="bg-white rounded-2xl shadow-lg border-t-4 {% if is_healthy %}border-success{% else %}border-danger{% endif %} overflow-hidden">
+        <div class="p-6">
+          <h3 class="font-bold text-xl text-dark mb-4">Rekomendasi Penanganan</h3>
+
+          <div class="mb-6">
+            <h4 class="text-sm font-bold text-gray-400 uppercase tracking-wider mb-2">Deskripsi</h4>
+            <p class="text-gray-700 text-sm leading-relaxed">
+              {{ disease_description }}
+            </p>
+          </div>
+
+          <div class="bg-green-50 rounded-lg p-4 border border-green-100">
+            <h4 class="font-bold text-green-800 mb-2">Langkah Penanganan:</h4>
+            <ol class="list-decimal list-inside text-sm text-green-700 font-semibold space-y-2">
+              {% for step in disease_treatment %}
+              <li>{{ step }}</li>
+              {% endfor %}
+            </ol>
+          </div>
+
+          {% if disease_prevention %}
+          <div class="bg-blue-50 rounded-lg p-4 border border-blue-100 mt-4">
+            <h4 class="font-bold text-blue-800 mb-2">Langkah Pencegahan:</h4>
+            <ul class="list-disc list-inside text-sm text-blue-700 font-medium space-y-2">
+              {% for step in disease_prevention %}
+              <li>{{ step }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+          {% endif %}
+
+          {% if disease_journals %}
+          <div class="bg-gray-50 rounded-lg p-4 border border-gray-200 mt-4">
+            <h4 class="font-bold text-gray-700 mb-2 flex items-center">
+              <i class="fa-solid fa-book-open text-gray-500 mr-2"></i> Referensi Ilmiah & Studi Terkait:
+            </h4>
+            <ul class="text-xs text-gray-600 space-y-2">
+              {% for journal in disease_journals %}
+              <li class="flex items-start gap-2">
+                <i class="fa-solid fa-link text-blue-400 mt-0.5"></i>
+                <a href="{{ journal.url }}" target="_blank" class="hover:text-blue-600 hover:underline">
+                  {{ journal.title }}
+                </a>
+              </li>
+              {% endfor %}
+            </ul>
+          </div>
+          {% endif %}
+        </div>
+
+
+      </div>
+
+      <div class="grid grid-cols-1 gap-3">
+        <button onclick="window.print()"
+          class="w-full py-3 bg-dark text-white rounded-xl font-semibold shadow hover:bg-gray-800 transition flex justify-center items-center gap-2">
+          <i class="fa-solid fa-file-pdf"></i> Download Laporan PDF
+        </button>
+        <a href="/"
+          class="w-full py-3 bg-white border-2 border-gray-200 text-gray-600 rounded-xl font-semibold hover:bg-gray-50 transition text-center">
+          <i class="fa-solid fa-camera mr-1"></i> Scan Gambar Lain
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+
+
+  <script>
+    // Fix for IDE syntax warning: Apply widths from data attributes
+    document.addEventListener("DOMContentLoaded", function () {
+      document.querySelectorAll('.progress-bar').forEach(function (bar) {
+        bar.style.width = bar.getAttribute('data-width');
+      });
+    });
+  </script>
+</body>
+
+</html>

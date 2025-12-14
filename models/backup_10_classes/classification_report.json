@@ -1,0 +1,75 @@
+{
+  "Tomato___Bacterial_spot": {
+    "precision": 0.8942731277533039,
+    "recall": 0.9552941176470588,
+    "f1-score": 0.9237770193401593,
+    "support": 425.0
+  },
+  "Tomato___Early_blight": {
+    "precision": 0.9273927392739274,
+    "recall": 0.5854166666666667,
+    "f1-score": 0.7177522349936143,
+    "support": 480.0
+  },
+  "Tomato___healthy": {
+    "precision": 0.7780126849894292,
+    "recall": 0.7948164146868251,
+    "f1-score": 0.7863247863247863,
+    "support": 463.0
+  },
+  "Tomato___Late_blight": {
+    "precision": 0.9927797833935018,
+    "recall": 0.5851063829787234,
+    "f1-score": 0.7362784471218207,
+    "support": 470.0
+  },
+  "Tomato___Leaf_Mold": {
+    "precision": 0.7228144989339019,
+    "recall": 0.7775229357798165,
+    "f1-score": 0.7491712707182321,
+    "support": 436.0
+  },
+  "Tomato___Septoria_leaf_spot": {
+    "precision": 0.5758426966292135,
+    "recall": 0.47126436781609193,
+    "f1-score": 0.5183312262958281,
+    "support": 435.0
+  },
+  "Tomato___Spider_mites Two-spotted_spider_mite": {
+    "precision": 0.7714285714285715,
+    "recall": 0.11816192560175055,
+    "f1-score": 0.2049335863377609,
+    "support": 457.0
+  },
+  "Tomato___Target_Spot": {
+    "precision": 0.975,
+    "recall": 0.8755102040816326,
+    "f1-score": 0.9225806451612903,
+    "support": 490.0
+  },
+  "Tomato___Tomato_mosaic_virus": {
+    "precision": 0.9492537313432836,
+    "recall": 0.7098214285714286,
+    "f1-score": 0.8122605363984674,
+    "support": 448.0
+  },
+  "Tomato___Tomato_Yellow_Leaf_Curl_Virus": {
+    "precision": 0.3409090909090909,
+    "recall": 0.997920997920998,
+    "f1-score": 0.5082053996823717,
+    "support": 481.0
+  },
+  "accuracy": 0.688113413304253,
+  "macro avg": {
+    "precision": 0.7927706924654223,
+    "recall": 0.6870835441750993,
+    "f1-score": 0.6879615152374331,
+    "support": 4585.0
+  },
+  "weighted avg": {
+    "precision": 0.7932858149558344,
+    "recall": 0.688113413304253,
+    "f1-score": 0.6877681553638149,
+    "support": 4585.0
+  }
+}

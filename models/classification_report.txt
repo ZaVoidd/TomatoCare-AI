@@ -1,0 +1,11 @@
+                              precision    recall  f1-score   support
+
+     Tomato___Bacterial_spot     0.7854    0.9129    0.8444       425
+        Tomato___Late_blight     0.6789    0.6393    0.6585       463
+        Tomato___Target_Spot     0.7407    0.2626    0.3877       457
+Tomato___Tomato_mosaic_virus     0.7713    0.7679    0.7696       448
+            Tomato___healthy     0.5625    0.8607    0.6804       481
+
+                    accuracy                         0.6869      2274
+                   macro avg     0.7078    0.6887    0.6681      2274
+                weighted avg     0.7048    0.6869    0.6653      2274

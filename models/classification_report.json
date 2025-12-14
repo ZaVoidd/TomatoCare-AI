@@ -1,0 +1,45 @@
+{
+  "Tomato___Bacterial_spot": {
+    "precision": 0.7854251012145749,
+    "recall": 0.9129411764705883,
+    "f1-score": 0.8443960826985855,
+    "support": 425.0
+  },
+  "Tomato___Late_blight": {
+    "precision": 0.6788990825688074,
+    "recall": 0.6393088552915767,
+    "f1-score": 0.6585094549499444,
+    "support": 463.0
+  },
+  "Tomato___Target_Spot": {
+    "precision": 0.7407407407407407,
+    "recall": 0.26258205689277897,
+    "f1-score": 0.3877221324717286,
+    "support": 457.0
+  },
+  "Tomato___Tomato_mosaic_virus": {
+    "precision": 0.7713004484304933,
+    "recall": 0.7678571428571429,
+    "f1-score": 0.7695749440715883,
+    "support": 448.0
+  },
+  "Tomato___healthy": {
+    "precision": 0.5625,
+    "recall": 0.8607068607068608,
+    "f1-score": 0.6803615447822514,
+    "support": 481.0
+  },
+  "accuracy": 0.6868953386103782,
+  "macro avg": {
+    "precision": 0.7077730745909233,
+    "recall": 0.6886792184437895,
+    "f1-score": 0.6681128317948196,
+    "support": 2274.0
+  },
+  "weighted avg": {
+    "precision": 0.7048195086459682,
+    "recall": 0.6868953386103782,
+    "f1-score": 0.6653345230046779,
+    "support": 2274.0
+  }
+}

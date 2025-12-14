@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hasil Diagnosa - TomatoCare AI</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        'danger': '#E63946',
+                        'success': '#2A9D8F',
+                        'warning': '#E9C46A',
+                        'dark': '#264653'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="bg-gray-50 text-gray-800 pb-20">
+
+    <nav class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <i class="fa-solid fa-seedling text-danger text-xl"></i>
+                <span class="font-bold text-dark text-lg">TomatoCare <span class="text-gray-400 font-normal">|
+                        Result</span></span>
+            </div>
+            <a href="/" class="text-sm font-semibold text-gray-500 hover:text-danger">
+                <i class="fa-solid fa-arrow-left mr-1"></i> Kembali ke Home
+            </a>
+        </div>
+    </nav>
+
+    <section class="bg-white border-b border-gray-200 py-10">
+        <div class="max-w-6xl mx-auto px-4 text-center">
+            <span
+                class="inline-block px-3 py-1 bg-red-100 text-red-600 rounded-full text-xs font-bold tracking-wide mb-4">
+                PENYAKIT TERDETEKSI
+            </span>
+            <h1 class="text-4xl md:text-5xl font-bold text-dark mb-2">Late Blight (Hawar Daun)</h1>
+            <p class="text-gray-500 text-lg">Phytophthora infestans</p>
+        </div>
+    </section>
+
+    <div class="max-w-7xl mx-auto px-4 mt-8 grid grid-cols-1 lg:grid-cols-12 gap-8">
+
+        <div class="lg:col-span-7 space-y-6">
+
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                <h3 class="font-bold text-dark mb-4 flex items-center">
+                    <i class="fa-solid fa-eye text-success mr-2"></i> Analisa Visual AI (Grad-CAM)
+                </h3>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="relative group">
+                        <span
+                            class="absolute top-2 left-2 bg-black/60 text-white text-xs px-2 py-1 rounded backdrop-blur-sm">Input
+                            Asli</span>
+                        <img src="https://images.unsplash.com/photo-1591986479034-754602f3775f?q=80&w=600&auto=format&fit=crop"
+                            class="rounded-xl w-full h-64 object-cover border border-gray-200">
+                    </div>
+
+                    <div class="relative group">
+                        <span
+                            class="absolute top-2 left-2 bg-danger/90 text-white text-xs px-2 py-1 rounded backdrop-blur-sm shadow-lg">AI
+                            Attention Heatmap</span>
+                        <div class="relative w-full h-64 rounded-xl overflow-hidden border border-gray-200">
+                            <img src="https://images.unsplash.com/photo-1591986479034-754602f3775f?q=80&w=600&auto=format&fit=crop"
+                                class="absolute inset-0 w-full h-full object-cover grayscale opacity-50">
+                            <div
+                                class="absolute inset-0 bg-gradient-to-tr from-transparent via-yellow-400/30 to-red-600/60 mix-blend-multiply">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-4 bg-blue-50 p-4 rounded-lg border border-blue-100 flex items-start gap-3">
+                    <i class="fa-solid fa-circle-info text-blue-500 mt-1"></i>
+                    <div>
+                        <p class="text-sm text-blue-800 font-semibold">Interpretasi Model:</p>
+                        <p class="text-sm text-blue-700">
+                            "Area berwarna <span class="font-bold text-red-600">merah pekat</span> pada gambar kanan
+                            menunjukkan bagian daun yang menjadi fokus utama AI dalam menentukan penyakit. AI mendeteksi
+                            pola bercak tidak beraturan di ujung daun."
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                <h3 class="font-bold text-dark mb-6 flex items-center">
+                    <i class="fa-solid fa-chart-bar text-success mr-2"></i> Tingkat Keyakinan (Confidence Score)
+                </h3>
+
+                <div class="mb-4">
+                    <div class="flex justify-between mb-1">
+                        <span class="text-sm font-bold text-gray-700">Late Blight</span>
+                        <span class="text-sm font-bold text-danger">91.4%</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-3">
+                        <div class="bg-danger h-3 rounded-full" style="width: 91.4%"></div>
+                    </div>
+                </div>
+
+                <div class="mb-4 opacity-60">
+                    <div class="flex justify-between mb-1">
+                        <span class="text-sm font-medium text-gray-600">Early Blight</span>
+                        <span class="text-sm font-medium text-gray-600">5.2%</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-2.5">
+                        <div class="bg-gray-400 h-2.5 rounded-full" style="width: 5.2%"></div>
+                    </div>
+                </div>
+
+                <div class="mb-2 opacity-60">
+                    <div class="flex justify-between mb-1">
+                        <span class="text-sm font-medium text-gray-600">Septoria Leaf Spot</span>
+                        <span class="text-sm font-medium text-gray-600">1.8%</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-2.5">
+                        <div class="bg-gray-400 h-2.5 rounded-full" style="width: 1.8%"></div>
+                    </div>
+                </div>
+
+                <p class="text-xs text-gray-400 mt-4 text-right">*Hanya menampilkan 3 probabilitas tertinggi.</p>
+            </div>
+        </div>
+
+        <div class="lg:col-span-5 space-y-6">
+
+            <div class="bg-white rounded-2xl shadow-lg border-t-4 border-danger overflow-hidden">
+                <div class="p-6">
+                    <h3 class="font-bold text-xl text-dark mb-4">Rekomendasi Penanganan</h3>
+
+                    <div class="mb-6">
+                        <h4 class="text-sm font-bold text-gray-400 uppercase tracking-wider mb-2">Gejala Visual</h4>
+                        <p class="text-gray-700 text-sm leading-relaxed">
+                            Bercak basah berwarna coklat atau hitam pada daun yang meluas dengan cepat. Seringkali
+                            muncul lapisan jamur putih di bagian bawah daun saat lembab.
+                        </p>
+                    </div>
+
+                    <div class="bg-red-50 rounded-lg p-4 mb-4 border border-red-100">
+                        <div class="flex items-start gap-3">
+                            <div class="bg-white p-2 rounded-full shadow-sm text-danger">
+                                <i class="fa-solid fa-flask"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-red-800">Fungisida Kimia (Saran Utama)</h4>
+                                <p class="text-sm text-red-700 mt-1">Gunakan fungisida berbahan aktif:</p>
+                                <ul class="list-disc list-inside text-sm text-red-700 mt-1 font-semibold">
+                                    <li>Mankozeb (Dithane)</li>
+                                    <li>Klorotalonil</li>
+                                    <li>Metalaksil</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-green-50 rounded-lg p-4 border border-green-100">
+                        <div class="flex items-start gap-3">
+                            <div class="bg-white p-2 rounded-full shadow-sm text-success">
+                                <i class="fa-solid fa-leaf"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-green-800">Penanganan Organik</h4>
+                                <p class="text-sm text-green-700 mt-1">
+                                    Potong dan bakar daun yang terinfeksi. Semprotkan larutan baking soda atau fungisida
+                                    tembaga organik.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-gray-50 px-6 py-4 border-t border-gray-100 flex justify-between items-center">
+                    <span class="text-xs text-gray-500">Sumber: Balai Penelitian Pertanian</span>
+                    <button class="text-blue-600 text-sm font-semibold hover:underline">Baca Detail <i
+                            class="fa-solid fa-arrow-right ml-1"></i></button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 gap-3">
+                <button onclick="window.print()"
+                    class="w-full py-3 bg-dark text-white rounded-xl font-semibold shadow hover:bg-gray-800 transition flex justify-center items-center gap-2">
+                    <i class="fa-solid fa-file-pdf"></i> Download Laporan PDF
+                </button>
+                <a href="/"
+                    class="w-full py-3 bg-white border-2 border-gray-200 text-gray-600 rounded-xl font-semibold hover:bg-gray-50 transition text-center">
+                    <i class="fa-solid fa-camera mr-1"></i> Scan Gambar Lain
+                </a>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 mt-12 mb-8">
+        <div
+            class="bg-blue-600 rounded-2xl p-8 text-white flex flex-col md:flex-row items-center justify-between shadow-xl">
+            <div class="mb-4 md:mb-0">
+                <h3 class="text-xl font-bold mb-1">Apakah hasil diagnosa ini akurat?</h3>
+                <p class="text-blue-100 text-sm">Bantu kami meningkatkan kecerdasan AI dengan memberikan feedback.</p>
+            </div>
+            <div class="flex gap-4">
+                <button
+                    class="px-6 py-2 bg-white text-blue-600 rounded-lg font-bold hover:bg-blue-50 transition shadow-sm">
+                    <i class="fa-solid fa-thumbs-up mr-1"></i> Ya, Benar
+                </button>
+                <button
+                    class="px-6 py-2 bg-blue-700 text-white border border-blue-400 rounded-lg font-bold hover:bg-blue-800 transition">
+                    <i class="fa-solid fa-thumbs-down mr-1"></i> Tidak
+                </button>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

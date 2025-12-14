@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TomatoCare AI - Deteksi Penyakit Tomat</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Inter', 'sans-serif'] },
+          colors: {
+            'danger': '#E63946',
+            'success': '#2A9D8F',
+            'warning': '#E9C46A',
+            'dark': '#264653',
+            'light': '#F1FAEE',
+            'paper': '#F8F9FA'
+          }
+        }
+      }
+    }
+  </script>
+</head>
+
+<body class="bg-paper text-gray-800 flex flex-col min-h-screen font-sans">
+
+  <!-- Navbar -->
+  <nav class="bg-white shadow-sm sticky top-0 z-50">
+    <div class="max-w-6xl mx-auto px-4 py-5 flex justify-between items-center">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 bg-red-50 rounded-full flex items-center justify-center">
+          <i class="fa-solid fa-seedling text-danger text-xl"></i>
+        </div>
+        <span class="font-bold text-dark text-xl tracking-tight">TomatoCare</span>
+      </div>
+      <div class="hidden md:flex gap-8 text-sm font-medium text-gray-500">
+        <a href="#about" class="hover:text-danger transition">Tentang</a>
+        <a href="#library" class="hover:text-danger transition">Penyakit</a>
+        <a href="#faq" class="hover:text-danger transition">Istilah</a>
+      </div>
+      <a href="#scan"
+        class="bg-danger text-white px-6 py-2.5 rounded-full font-bold text-sm hover:bg-red-700 transition shadow-lg shadow-red-100">
+        Mulai Diagnosa
+      </a>
+    </div>
+  </nav>
+
+  <!-- Content Wrapper -->
+  <main class="flex-grow">
+
+    <!-- Header -->
+    <header class="bg-white pt-20 pb-16 border-b border-gray-100">
+      <div class="max-w-4xl mx-auto px-4 text-center">
+        <span class="inline-block py-1 px-3 rounded-full bg-green-50 text-success text-xs font-bold tracking-wide mb-6">
+          SOLUSI PERTANIAN CERDAS
+        </span>
+        <h1 class="text-4xl md:text-6xl font-bold text-dark mb-6 leading-tight">
+          Lindungi Tanaman <span
+            class="text-transparent bg-clip-text bg-gradient-to-r from-danger to-orange-500">Tomat</span> Anda
+        </h1>
+        <p class="text-gray-500 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
+          Identifikasi penyakit daun tomat secara instan dan akurat menggunakan teknologi Artificial Intelligence
+          (DenseNet121).
+        </p>
+      </div>
+    </header>
+
+    <!-- Scan Section -->
+    <section id="scan" class="py-20">
+      <div class="max-w-4xl mx-auto px-4">
+        <div class="bg-white rounded-[2rem] shadow-xl border border-gray-100 p-10 md:p-14 text-center">
+          <h2 class="text-2xl font-bold text-dark mb-2">Upload Foto Daun</h2>
+          <p class="text-gray-400 mb-8 text-sm">Format: JPG, PNG • Max: 5MB</p>
+
+          <!-- Flask Flash Messages -->
+          {% with messages = get_flashed_messages() %}
+          {% if messages %}
+          <div
+            class="mb-8 p-4 bg-red-50 border border-red-200 text-red-600 rounded-xl text-sm font-semibold animate-pulse">
+            {% for message in messages %}
+            {{ message }}
+            {% endfor %}
+          </div>
+          {% endif %}
+          {% endwith %}
+
+          <form action="/predict" method="post" enctype="multipart/form-data">
+            <label for="file-upload"
+              class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-200 border-dashed rounded-3xl cursor-pointer bg-gray-50 hover:bg-blue-50 hover:border-blue-300 transition-all duration-300 group">
+              <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                <div
+                  class="w-16 h-16 bg-white rounded-full shadow-sm flex items-center justify-center mb-4 group-hover:scale-110 transition">
+                  <i class="fa-solid fa-cloud-arrow-up text-3xl text-blue-500"></i>
+                </div>
+                <p class="mb-1 text-lg font-medium text-gray-700">Klik untuk upload foto</p>
+                <p class="text-sm text-gray-400">atau drag and drop file di sini</p>
+              </div>
+              <input id="file-upload" name="file" type="file" class="hidden" accept=".png, .jpg, .jpeg"
+                onchange="startAnalysis(this)" />
+            </label>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- Who We Help Section -->
+    <section id="about" class="py-20 bg-white border-t border-gray-100">
+      <div class="max-w-6xl mx-auto px-4">
+        <div class="text-center mb-16">
+          <h2 class="text-3xl font-bold text-dark">Siapa Yang Kami Bantu?</h2>
+          <div class="h-1 w-20 bg-danger mx-auto mt-4 rounded-full"></div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+          <!-- Card 1 -->
+          <div
+            class="p-8 bg-gray-50 rounded-2xl border border-gray-100 hover:shadow-lg transition hover:-translate-y-1">
+            <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center text-green-600 text-xl mb-6">
+              <i class="fa-solid fa-wheat-awn"></i>
+            </div>
+            <h3 class="text-xl font-bold text-dark mb-3">Petani Tomat</h3>
+            <p class="text-gray-500 leading-relaxed text-sm">
+              Deteksi dini penyakit di lahan pertanian untuk mencegah gagal panen dan memilih penanganan yang tepat
+              sasaran.
+            </p>
+          </div>
+
+          <!-- Card 2 -->
+          <div
+            class="p-8 bg-gray-50 rounded-2xl border border-gray-100 hover:shadow-lg transition hover:-translate-y-1">
+            <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center text-blue-600 text-xl mb-6">
+              <i class="fa-solid fa-microscope"></i>
+            </div>
+            <h3 class="text-xl font-bold text-dark mb-3">Peneliti & Mahasiswa</h3>
+            <p class="text-gray-500 leading-relaxed text-sm">
+              Platform untuk menguji akurasi model AI dan mempelajari karakteristik visual berbagai penyakit tanaman.
+            </p>
+          </div>
+
+          <!-- Card 3 -->
+          <div
+            class="p-8 bg-gray-50 rounded-2xl border border-gray-100 hover:shadow-lg transition hover:-translate-y-1">
+            <div
+              class="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center text-orange-600 text-xl mb-6">
+              <i class="fa-solid fa-house-chimney-window"></i>
+            </div>
+            <h3 class="text-xl font-bold text-dark mb-3">Penghobi Tanaman</h3>
+            <p class="text-gray-500 leading-relaxed text-sm">
+              Bantuan praktis bagi Anda yang menanam tomat di pekarangan rumah agar tanaman tetap sehat dan berbuah
+              lebat.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Terms & Terminology Section -->
+    <section id="faq" class="py-20 bg-gray-50">
+      <div class="max-w-4xl mx-auto px-4">
+        <div class="text-center mb-16">
+          <h2 class="text-3xl font-bold text-dark">Istilah & Terminologi</h2>
+          <p class="text-gray-500 mt-4">Memahami teknologi di balik TomatoCare.</p>
+        </div>
+
+        <div class="space-y-6">
+          <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 flex gap-4 md:gap-6 items-start">
+            <div
+              class="mt-1 min-w-[3rem] w-12 h-12 rounded-full bg-blue-50 flex items-center justify-center text-blue-600 font-bold text-sm">
+              AI
+            </div>
+            <div>
+              <h4 class="text-lg font-bold text-dark mb-1">Deep Learning (CNN)</h4>
+              <p class="text-gray-600 text-sm leading-relaxed">
+                Jaringan saraf tiruan yang mampu "belajar" melihat pola pada gambar. Kami menggunakan arsitektur
+                <strong>DenseNet121</strong> yang terkenal akurat untuk pengenalan citra medis dan biologi.
+              </p>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 flex gap-4 md:gap-6 items-start">
+            <div
+              class="mt-1 min-w-[3rem] w-12 h-12 rounded-full bg-red-50 flex items-center justify-center text-red-600 font-bold text-sm">
+              CAM
+            </div>
+            <div>
+              <h4 class="text-lg font-bold text-dark mb-1">Grad-CAM (Heatmap)</h4>
+              <p class="text-gray-600 text-sm leading-relaxed">
+                Visualisasi "peta panas" yang menunjukkan bagian daun mana yang dianggap penting oleh AI. Warna merah
+                menandakan area yang paling meyakinkan AI bahwa itu adalah penyakit tertentu.
+              </p>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 flex gap-4 md:gap-6 items-start">
+            <div
+              class="mt-1 min-w-[3rem] w-12 h-12 rounded-full bg-purple-50 flex items-center justify-center text-purple-600 font-bold text-sm">
+              %
+            </div>
+            <div>
+              <h4 class="text-lg font-bold text-dark mb-1">Confidence Score</h4>
+              <p class="text-gray-600 text-sm leading-relaxed">
+                Angka persentase keyakinan. Jika skor 90%, artinya AI 90% yakin tebakannya benar. Jika di bawah 50%,
+                hasilnya mungkin kurang akurat atau penyakit tidak dikenali.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Guide Section -->
+    <section class="py-20 bg-dark text-white relative overflow-hidden">
+      <!-- decorative bg -->
+      <div class="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-3xl -mr-32 -mt-32"></div>
+      <div class="absolute bottom-0 left-0 w-64 h-64 bg-white/5 rounded-full blur-3xl -ml-32 -mb-32"></div>
+
+      <div class="max-w-6xl mx-auto px-4 relative z-10 text-center">
+        <h2 class="text-3xl font-bold mb-16">Cara Penggunaan</h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-12 relative px-4">
+          <!-- Connector Line (Desktop) -->
+          <div class="hidden md:block absolute top-12 left-[16%] right-[16%] h-0.5 bg-white/20 -z-0"></div>
+
+          <div class="relative z-10">
+            <div
+              class="w-24 h-24 mx-auto bg-dark border-4 border-success rounded-full flex items-center justify-center text-3xl font-bold mb-6 shadow-2xl shadow-green-900/50 text-success">
+              1
+            </div>
+            <h3 class="text-xl font-bold mb-2">Ambil Foto</h3>
+            <p class="text-gray-400 text-sm leading-relaxed">Pastikan cahaya cukup dan bagian sakit terlihat jelas.</p>
+          </div>
+
+          <div class="relative z-10">
+            <div
+              class="w-24 h-24 mx-auto bg-dark border-4 border-success rounded-full flex items-center justify-center text-3xl font-bold mb-6 shadow-2xl shadow-green-900/50 text-success">
+              2
+            </div>
+            <h3 class="text-xl font-bold mb-2">Upload File</h3>
+            <p class="text-gray-400 text-sm leading-relaxed">Unggah foto ke aplikasi. Sistem akan memproses < 5
+                detik.</p>
+          </div>
+
+          <div class="relative z-10">
+            <div
+              class="w-24 h-24 mx-auto bg-dark border-4 border-success rounded-full flex items-center justify-center text-3xl font-bold mb-6 shadow-2xl shadow-green-900/50 text-success">
+              3
+            </div>
+            <h3 class="text-xl font-bold mb-2">Hasil & Solusi</h3>
+            <p class="text-gray-400 text-sm leading-relaxed">Dapatkan diagnosa dan langkah penanganan yang tepat.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- Disease List (5 Cards) -->
+    <section id="library" class="py-20 bg-white">
+      <div class="max-w-6xl mx-auto px-4">
+        <div class="flex flex-col md:flex-row justify-between items-end mb-12">
+          <div>
+            <h2 class="text-3xl font-bold text-dark">Katalog Penyakit</h2>
+            <p class="text-gray-500 mt-2">5 jenis klasifikasi yang dapat dideteksi oleh TomatoCare.</p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+          {% for key, info in diseases.items() %}
+          <div
+            class="group bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1 cursor-default">
+            <div class="h-40 overflow-hidden bg-gray-100 relative">
+              <img src="{{ info.image_url }}" alt="{{ info.name_id }}"
+                class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-500">
+              <div
+                class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition duration-300">
+              </div>
+            </div>
+            <div class="p-5">
+              <h3 class="font-bold text-dark text-sm mb-2 group-hover:text-danger transition">{{ info.name_id }}</h3>
+              <p class="text-xs text-gray-400 line-clamp-3 leading-relaxed">{{ info.description }}</p>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-gray-50 border-t border-gray-200 py-12">
+    <div class="max-w-4xl mx-auto px-4 text-center">
+      <div class="flex flex-col items-center">
+        <i class="fa-solid fa-graduation-cap text-4xl text-dark mb-4 opacity-50"></i>
+        <h3 class="font-bold text-dark text-lg mb-1">Universitas Bina Sarana Informatika</h3>
+        <p class="text-gray-500 text-sm">Fakultas Teknik Informatika • Program Studi Rekayasa Perangkat Lunak</p>
+
+        <div class="w-12 h-0.5 bg-gray-300 my-6"></div>
+
+        <p class="text-xs text-gray-400">© 2025 TomatoCare AI Project. Created for Educational Purpose.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Progress Modal (Hidden by default) -->
+  <div id="progress-modal"
+    class="fixed inset-0 bg-black/60 z-[60] hidden flex items-center justify-center backdrop-blur-sm">
+    <div class="bg-white rounded-3xl p-8 max-w-sm w-full mx-4 shadow-2xl text-center relative overflow-hidden">
+      <!-- Decorative background blob -->
+      <div class="absolute top-0 left-0 w-32 h-32 bg-red-100 rounded-full blur-3xl -ml-16 -mt-16 opacity-50"></div>
+      <div class="absolute bottom-0 right-0 w-32 h-32 bg-blue-100 rounded-full blur-3xl -mr-16 -mb-16 opacity-50"></div>
+
+      <div class="relative z-10">
+        <!-- Icon Animation -->
+        <div class="w-20 h-20 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-6 relative">
+          <span
+            class="absolute inset-0 rounded-full border-4 border-dashed border-danger/30 animate-[spin_4s_linear_infinite]"></span>
+          <i class="fa-solid fa-microchip text-3xl text-danger animate-pulse"></i>
+        </div>
+
+        <h3 class="text-xl font-bold text-dark mb-2">Menganalisa Gambar...</h3>
+        <p class="text-gray-400 text-sm mb-6">AI sedang memindai tekstur dan pola daun.</p>
+
+        <!-- Progress Bar -->
+        <div class="w-full bg-gray-100 rounded-full h-4 mb-2 overflow-hidden relative">
+          <div id="analysis-bar"
+            class="h-full bg-gradient-to-r from-danger to-orange-500 rounded-full transition-all duration-300 ease-out"
+            style="width: 0%"></div>
+        </div>
+        <p class="text-xs font-bold text-gray-400 text-right" id="analysis-percent">0%</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function startAnalysis(input) {
+      if (input.files && input.files[0]) {
+        // Show Modal
+        const modal = document.getElementById('progress-modal');
+        modal.classList.remove('hidden');
+
+        const bar = document.getElementById('analysis-bar');
+        const percent = document.getElementById('analysis-percent');
+        let width = 0;
+
+        // Simulated Progress (0% to 90% in ~2-3 seconds)
+        // Note: Real progress depends on server response time
+        const interval = setInterval(() => {
+          if (width >= 90) {
+            clearInterval(interval);
+          } else {
+            // Random increment to make it feel organic
+            const jump = Math.floor(Math.random() * 10) + 1;
+            width += jump;
+            if (width > 90) width = 90;
+
+            bar.style.width = width + '%';
+            percent.innerText = width + '%';
+          }
+        }, 300);
+
+        // Submit form (give UI a split second to render)
+        setTimeout(() => {
+          input.form.submit();
+        }, 500);
+      }
+    }
+  </script>
+</body>
+
+</html>

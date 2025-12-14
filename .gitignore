@@ -1,0 +1,24 @@
+# Environment & Config
+.env
+.venv
+env/
+venv/
+__pycache__/
+*.pyc
+
+# Dataset (TOO LARGE for GitHub)
+data/
+New Plant Diseases Dataset(Augmented)/
+New Plant Diseases Dataset(Filtered)/
+
+# IDE Settings
+.vscode/
+.idea/
+
+# Flask
+instance/
+.webassets-cache
+
+# OS Files
+.DS_Store
+Thumbs.db
