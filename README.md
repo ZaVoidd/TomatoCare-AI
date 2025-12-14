@@ -1,11 +1,24 @@
 # 🍅 TomatoCare AI - Smart Disease Detection System
 
-![Python](https://img.shields.io/badge/Python-3.8%2B-blue)
-![TensorFlow](https://img.shields.io/badge/TensorFlow-2.10%2B-orange)
-![Flask](https://img.shields.io/badge/Flask-Web%20App-green)
-![TailwindCSS](https://img.shields.io/badge/Tailwind-CSS-cyan)
+![Python](https://img.shields.io/badge/Python-3.8%2B-blue?style=for-the-badge&logo=python)
+![TensorFlow](https://img.shields.io/badge/TensorFlow-2.10%2B-orange?style=for-the-badge&logo=tensorflow)
+![Flask](https://img.shields.io/badge/Flask-Web%20App-green?style=for-the-badge&logo=flask)
+![TailwindCSS](https://img.shields.io/badge/Tailwind-CSS-cyan?style=for-the-badge&logo=tailwindcss)
 
 **TomatoCare** adalah sistem kecerdasan buatan (AI) berbasis web untuk mendeteksi penyakit pada tanaman tomat secara otomatis melalui foto daun. Dibangun menggunakan arsitektur **DenseNet121** dengan akurasi tinggi dan dilengkapi fitur validasi cerdas ("Satpam Digital") untuk mencegah input yang tidak valid.
+
+---
+
+## 📱 User Interface (Tampilan Aplikasi)
+
+> **Catatan:** Screenshot tampilan aplikasi.
+
+| Halaman Utama (Upload) | Halaman Hasil (Diagnosa) |
+|:---:|:---:|
+| ![Home Page](assets/images/ui_home.png) | ![Result Page](assets/images/ui_result.png) |
+| *Form upload dengan validasi pintar* | *Hasil diagnosa + Heatmap AI* |
+
+*(Silakan ganti gambar di atas dengan screenshot aplikasi Anda, simpan sebagai `assets/images/ui_home.png` dan `ui_result.png`)*
 
 ---
 
@@ -23,15 +36,29 @@ Mampu mendeteksi 5 kondisi tanaman dengan presisi tinggi:
 Sistem dilengkapi 6 lapis proteksi untuk menolak gambar "sampah":
 - **Anti-Blur:** Menolak gambar yang buram/goyang.
 - **Anti-Dark/Bright:** Menolak gambar terlalu gelap atau *overexposed*.
-- **Anti-Foreign Object:** Menolak gambar coretan spidol, mobil, tembok, dll.
+- **Anti-Foreign Object:** Menolak gambar coretan spidol, mobil, tembok, dll (Deteksi Warna).
 - **Resolution Check:** Memastikan minimal resolusi 200x200 px.
 - **Leaf Dominance:** Memastikan objek utama adalah daun (bukan buah tomat utuh).
 
 ### 3. 🔍 Explainability (Grad-CAM)
 Transparansi AI! Sistem menampilkan **Heatmap** di atas gambar untuk menunjukkan bagian daun mana yang "dilihat" oleh AI sebagai indikasi penyakit.
 
-### 4. 📱 Modern & Responsive UI
-Dibangun dengan **TailwindCSS**, tampilan web responsif di HP maupun Laptop, dengan desain yang bersih dan informatif.
+---
+
+## � Performa Model (Training Results)
+
+Model dilatih menggunakan dataset yang telah melalui proses *Super Augmentation* dan penyeimbangan kelas (*Class Weighting 8.0x* untuk penyakit).
+
+### Grafik Akurasi & Loss
+| Akurasi Training vs Validasi | Loss Training vs Validasi |
+|:---:|:---:|
+| ![Accuracy Plot](assets/images/accuracy.png) | ![Loss Plot](assets/images/loss.png) |
+| *Grafik menunjukkan peningkatan akurasi* | *Grafik penurunan error rate* |
+
+### Matriks Evaluasi (Confusion Matrix)
+Confusion Matrix menunjukkan detail performa prediksi per kelas. Diagonal utama yang gelap menandakan prediksi yang benar.
+
+![Confusion Matrix](assets/images/confusion_matrix.png)
 
 ---
 
@@ -46,8 +73,8 @@ Ikuti langkah ini untuk menjalankan proyek di komputer Anda secara lokal.
 ### 1. Clone Repository
 Buka terminal dan jalankan perintah ini:
 ```bash
-git clone https://github.com/USERNAME_ANDA/TomatoCare.git
-cd TomatoCare
+git clone https://github.com/ZaVoidd/TomatoCare-AI.git
+cd TomatoCare-AI
 ```
 
 ### 2. Buat Virtual Environment (Opsional tapi Disarankan)
@@ -78,6 +105,8 @@ Buka alamat tersebut di browser Anda.
 
 ```
 ├── data/               # [Di-ignore] Dataset gambar (Download terpisah)
+├── assets/
+│   └── images/         # Screenshot & Plot Grafik
 ├── models/
 │   ├── densenet121_best.keras  # Model AI Utama (Pre-trained)
 │   └── label_map.json          # Label kelas
@@ -93,20 +122,10 @@ Buka alamat tersebut di browser Anda.
 
 ---
 
-## 🤖 Algoritma & Teknologi
-
-*   **Model:** DenseNet121 (Transfer Learning from ImageNet)
-*   **Optimizer:** Adam
-*   **Loss Function:** Sparse Categorical Crossentropy
-*   **Metric:** Accuracy, Precision, Recall, F1-Score
-*   **Activation:** Softmax (Output Layer)
-
----
-
 ## 👨‍💻 Author
 
 Project ini dikembangkan untuk tujuan edukasi dan penelitian.
-**[Nama Anda]** - Universitas Bina Sarana Informatika
+**[Erza Aditia]**
 
 ---
 *Created with ❤️ using Python & TensorFlow.*
