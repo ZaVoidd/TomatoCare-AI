@@ -18,7 +18,7 @@
 | ![Home Page](assets/images/ui_home.png) | ![Result Page](assets/images/ui_result.png) |
 | *Form upload dengan validasi pintar* | *Hasil diagnosa + Heatmap AI* |
 
-*(Silakan ganti gambar di atas dengan screenshot aplikasi Anda, simpan sebagai `assets/images/ui_home.png` dan `ui_result.png`)*
+
 
 ---
 
@@ -122,10 +122,7 @@ Buka alamat tersebut di browser Anda.
 
 ---
 
-## 👨‍💻 Author
+## 👨‍💻 Creator
 
-Project ini dikembangkan untuk tujuan edukasi dan penelitian.
-**[Erza Aditia]**
+**Created by Erza Aditia**
 
----
-*Created with ❤️ using Python & TensorFlow.*
